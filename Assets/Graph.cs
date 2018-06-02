@@ -35,6 +35,8 @@ public class Graph : MonoBehaviour {
         for (int i = 0; i < node_transforms.Count; i++)
         {
             Node n = node_transforms[i].GetComponent<Node>();
+            var cmc = n.GetComponent<ChangeMaterialColor>();
+            n.SporeCountChanged.AddListener(cmc.InterpolateMaterialProperties);
             n.ID = i;
             n.Treshhold = 2;
             nodes.Add(n);

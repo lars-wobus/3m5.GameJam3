@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+[System.Serializable]
+public class FloatEvent : UnityEvent<float> { };
 
 public class Node : MonoBehaviour {
 
@@ -9,6 +12,8 @@ public class Node : MonoBehaviour {
     public List<Node> neighbours = new List<Node>();
     public int Treshhold { get; set; }
     public int ID { get; set; }
+
+    public FloatEvent SporeCountChanged;    
 
     private static int MinSporeCount = 0;
     private static int MaxSporeCount = 10;
@@ -29,6 +34,11 @@ public class Node : MonoBehaviour {
                 return;
             }
             sporeCount = tmp;
+            if(SporeCountChanged == null)
+            {
+                return;
+            }
+            SporeCountChanged.Invoke((float)sporeCount / Treshhold);
         }
     }
 
