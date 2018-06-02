@@ -13,11 +13,11 @@ public class MouseInput : MonoBehaviour {
             {
                 return;
             }
-            clickableObject.ChangeSporeCount(1);
+            clickableObject.Activate();
         }
     }
 
-    private Clickable DoRayCastToFindClickableGameObjects()
+    private Node DoRayCastToFindClickableGameObjects()
     {
         RaycastHit hitInfo = new RaycastHit();
         bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
@@ -25,6 +25,6 @@ public class MouseInput : MonoBehaviour {
         {
             return null;
         }
-        return hitInfo.transform.GetComponent<Clickable>();
+        return hitInfo.transform.GetComponent<Node>();
     }
 }

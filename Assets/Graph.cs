@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,18 +14,31 @@ public class Graph : MonoBehaviour {
 
     int num_edges = 7;
 
+    Vector3[] vectors = { new Vector3(0, 1, 0),
+        new Vector3(0, 3, 0), new Vector3(2, 2, 0),
+        new Vector3(4, 1, 0),
+        new Vector3(4, 3, 0),
+        new Vector3(6, 2, 0)};
 
     // Use this for initialization
     void Start () {
-        node_transforms.Add(Instantiate(prefabs[0], new Vector3(0, 1, 0), Quaternion.identity));
-        node_transforms.Add(Instantiate(prefabs[0], new Vector3(0, 3, 0), Quaternion.identity));
-        node_transforms.Add(Instantiate(prefabs[0], new Vector3(2, 2, 0), Quaternion.identity));
-        node_transforms.Add(Instantiate(prefabs[0], new Vector3(4, 1, 0), Quaternion.identity));
-        node_transforms.Add(Instantiate(prefabs[0], new Vector3(4, 3, 0), Quaternion.identity));
-        node_transforms.Add(Instantiate(prefabs[0], new Vector3(6, 2, 0), Quaternion.identity));
+        Transform new_node;
+
+        for (int i = 0; i < 6; i++)
+        {
+            Transform newnode = Instantiate(prefabs[0], vectors[i], Quaternion.identity);
+            node_transforms.Add(newnode);
+            newnode.parent = transform;
+        }
+
         nodes = new List<Node>();
         for (int i = 0; i < node_transforms.Count; i++)
-            nodes.Add(node_transforms[i].GetComponent<Node>());
+        {
+            Node n = node_transforms[i].GetComponent<Node>();
+            n.ID = i;
+            n.Treshhold = 2;
+            nodes.Add(n);
+        }
         edge_transforms = new List<Transform>();
         edges = new List<Edge>();
         for (int i = 0; i < num_edges; i++)
@@ -39,6 +53,20 @@ public class Graph : MonoBehaviour {
         initEdge(5, 3, 5);
         initEdge(6, 4, 5);
 
+    }
+
+    internal void CleanUp(Node node)
+    {
+        int num_edges = edges.Count;
+        for(int i = 0; i < num_edges; i++)
+        {
+            if(edges[i].ConnectsTo(node))
+            {
+                edge_transforms[i].gameObject.SetActive(false);
+                edges.RemoveAt(i);
+                edge_transforms.RemoveAt(i);
+            }
+        }
     }
 
     private void initEdge(int index, int start, int end)

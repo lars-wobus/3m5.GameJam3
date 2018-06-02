@@ -38,8 +38,8 @@ public class Edge : MonoBehaviour  {
         Gizmos.DrawLine(pos, pos2);
     }
 
-    public bool connectsTo(Node target)
+    public bool ConnectsTo(Node target)
     {
-        return start == target || end == target;
+        return (start == target || end == target);
     }
 }
