@@ -5,7 +5,9 @@ using UnityEngine;
 public class Graph : MonoBehaviour {
 
     public Transform[] prefabs;
-    public List<Transform> nodes;
+    public List<Transform> node_transforms;
+    public List<Transform> edge_transforms;
+    public List<Node> nodes;
     public List<Edge> edges;
     public Transform prefab_edge;
 
@@ -14,33 +16,40 @@ public class Graph : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        nodes.Add(Instantiate(prefabs[0], new Vector3(0, 1, 0), Quaternion.identity));
-        nodes.Add(Instantiate(prefabs[0], new Vector3(0, 3, 0), Quaternion.identity));
-        nodes.Add(Instantiate(prefabs[0], new Vector3(2, 2, 0), Quaternion.identity));
-        nodes.Add(Instantiate(prefabs[0], new Vector3(4, 1, 0), Quaternion.identity));
-        nodes.Add(Instantiate(prefabs[0], new Vector3(4, 3, 0), Quaternion.identity));
-        nodes.Add(Instantiate(prefabs[0], new Vector3(6, 2, 0), Quaternion.identity));
+        node_transforms.Add(Instantiate(prefabs[0], new Vector3(0, 1, 0), Quaternion.identity));
+        node_transforms.Add(Instantiate(prefabs[0], new Vector3(0, 3, 0), Quaternion.identity));
+        node_transforms.Add(Instantiate(prefabs[0], new Vector3(2, 2, 0), Quaternion.identity));
+        node_transforms.Add(Instantiate(prefabs[0], new Vector3(4, 1, 0), Quaternion.identity));
+        node_transforms.Add(Instantiate(prefabs[0], new Vector3(4, 3, 0), Quaternion.identity));
+        node_transforms.Add(Instantiate(prefabs[0], new Vector3(6, 2, 0), Quaternion.identity));
+        nodes = new List<Node>();
+        for (int i = 0; i < node_transforms.Count; i++)
+            nodes.Add(node_transforms[i].GetComponent<Node>());
+        edge_transforms = new List<Transform>();
+        edges = new List<Edge>();
+        for (int i = 0; i < num_edges; i++)
+            edge_transforms.Add(Instantiate(prefabs[1]));
+        for (int i = 0; i < num_edges; i++)
+            edges.Add(edge_transforms[i].GetComponent<Edge>());
+        initEdge(0, 0, 1);
+        initEdge(1, 0, 2);
+        initEdge(2, 1, 2);
+        initEdge(3, 2, 3);
+        initEdge(4, 2, 4);
+        initEdge(5, 3, 5);
+        initEdge(6, 4, 5);
 
-        for(int i = 0; i < num_edges; i++)
-            edges.Add(Instantiate(prefabs[1]).GetComponent<Edge>());
-        edges[0].SetNodes(nodes[0].GetComponent<Node>(), nodes[1].GetComponent<Node>());
-        edges[1].SetNodes(nodes[0].GetComponent<Node>(), nodes[2].GetComponent<Node>());
-        edges[2].SetNodes(nodes[1].GetComponent<Node>(), nodes[2].GetComponent<Node>());
-        edges[3].SetNodes(nodes[2].GetComponent<Node>(), nodes[3].GetComponent<Node>());
-        edges[4].SetNodes(nodes[2].GetComponent<Node>(), nodes[4].GetComponent<Node>());
-        edges[5].SetNodes(nodes[3].GetComponent<Node>(), nodes[5].GetComponent<Node>());
-        edges[6].SetNodes(nodes[4].GetComponent<Node>(), nodes[5].GetComponent<Node>());
+    }
 
+    private void initEdge(int index, int start, int end)
+    {
+        edges[index].SetNodes(nodes[start], nodes[end]);
+        nodes[start].AddNeighbour(nodes[end]);
+        nodes[end].AddNeighbour(nodes[start]);
     }
 	
 	// Update is called once per frame
 	void Update () {
-
-    }
-
-    //checks for new nodes to activate
-    private void upDateAcivation()
-    {
 
     }
 }
