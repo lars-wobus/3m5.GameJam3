@@ -15,7 +15,7 @@ public class Graph : MonoBehaviour {
     // Use this for initialization
     void Start () {
         nodes.Add(Instantiate(prefabs[0], new Vector3(0, 1, 0), Quaternion.identity));
-        nodes.Add(Instantiate(prefabs[0], new Vector3(2, 3, 0), Quaternion.identity));
+        nodes.Add(Instantiate(prefabs[0], new Vector3(0, 3, 0), Quaternion.identity));
         nodes.Add(Instantiate(prefabs[0], new Vector3(2, 2, 0), Quaternion.identity));
         nodes.Add(Instantiate(prefabs[0], new Vector3(4, 1, 0), Quaternion.identity));
         nodes.Add(Instantiate(prefabs[0], new Vector3(4, 3, 0), Quaternion.identity));
@@ -35,5 +35,12 @@ public class Graph : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+    }
+
+    //checks for new nodes to activate
+    private void upDateAcivation()
+    {
+
     }
 }
