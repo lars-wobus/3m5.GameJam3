@@ -1334,7 +1334,6 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: IntEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  globalsporecount: 0
 --- !u!4 &1441012421
 Transform:
   m_ObjectHideFlags: 0
