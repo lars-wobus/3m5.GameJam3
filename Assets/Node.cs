@@ -11,9 +11,10 @@ public class Node : MonoBehaviour {
 
     public List<Node> neighbours = new List<Node>();
     public int Treshhold { get; set; }
-    public bool target;
+    public bool isSupercell;
 
     private Graph map;
+    private InfectedCellsManager InfectedCellsManger;
 
     public FloatEvent SporeCountChanged;
 
@@ -51,6 +52,7 @@ public class Node : MonoBehaviour {
         var parent = transform.parent;
         map = parent.GetComponent<Graph>();
         SporeCountManager = parent.GetComponentInChildren<SporeCountManager>();
+        InfectedCellsManger = parent.GetComponentInChildren<InfectedCellsManager>();
     }
 	
 	// Update is called once per frame
@@ -76,8 +78,13 @@ public class Node : MonoBehaviour {
             return;
         }
         // -> Node activated
+        if(isSupercell)
+        {
+            SporeCountManager.GlobalSporeCount++;
+        }
         map.CleanUp(this);
         map.cell_count--;
+        InfectedCellsManger.InfectedCells++;
         if (map.CellCountChanged == null)
         {
             return;
@@ -92,8 +99,14 @@ public class Node : MonoBehaviour {
 
     public void Activate()
     {
-        AddSpores(Treshhold - sporeCount);
-        SporeCountManager.GlobalSporeCount--;
+        if (!isSupercell || sporeCount == 0)
+        {
+            AddSpores(Treshhold - sporeCount);
+            SporeCountManager.GlobalSporeCount--;
+            InfectedCellsManger.InfectedCells++;
+            return;
+        }
+        Debug.Log("Invalid move!");
     }
 
 }
