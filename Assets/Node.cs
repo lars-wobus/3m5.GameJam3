@@ -80,6 +80,7 @@ public class Node : MonoBehaviour {
         // -> Node activated
         if(isSupercell)
         {
+            blopsounds.playBonusSound();
             SporeCountManager.GlobalSporeCount++;
         }
         map.CleanUp(this);
