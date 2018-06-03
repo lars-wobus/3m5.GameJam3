@@ -23,7 +23,7 @@ public class Graph : MonoBehaviour {
 
 
     private const int difficulty_max_thr_diff = 2;
-    private const int difficulty_num_supercells = 0;
+    private const int difficulty_num_supercells = 2;
 
     private Vector3[] vectors = {
         // Cluster oben links
@@ -161,7 +161,7 @@ public class Graph : MonoBehaviour {
         {
             n = node_transforms[i].GetComponent<Node>();
             n.Treshhold = rng.Next(Mathf.Max(2, n.neighbours.Count - difficulty_max_thr_diff), n.neighbours.Count);
-            node_transforms[i].transform.localScale = new Vector3(0.1f + 0.2f * n.Treshhold, 0.1f + 0.2f * n.Treshhold, 0.1f + 0.2f * n.Treshhold);
+            node_transforms[i].transform.localScale = new Vector3(0.2f + 0.2f * n.Treshhold, 0.2f + 0.2f * n.Treshhold, 0.2f + 0.2f * n.Treshhold);
         }
     }
 
