@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIManger : MonoBehaviour {
+
+    private int SporeCount { get; set; }
+    private int CellCount { get; set; }
 
     [SerializeField] private Text infectionRateText;
     [SerializeField] private Text sporesLeftText;
@@ -10,10 +14,8 @@ public class UIManger : MonoBehaviour {
 
     private void Awake()
     {
-        SetInfectionRate(0);
-        SetSporesLeft(0);
-        SetCellCount(0);
-        SetThreshold(0);
+        SporeCount = -1;
+        CellCount = -1;
     }
 
     public void SetInfectionRate(int value)
@@ -26,17 +28,48 @@ public class UIManger : MonoBehaviour {
     {
         var result = Mathf.Clamp(value, 0, int.MaxValue);
         sporesLeftText.text = result.ToString();
+        SporeCount = result;
+
+        CheckGameOverState();
     }
 
     public void SetCellCount(int value)
     {
         var result = Mathf.Clamp(value, 0, int.MaxValue);
         cellCountText.text = result.ToString();
+        CellCount = result;
+
+        CheckGameOverState();
     }
 
     public void SetThreshold(int value)
     {
         var result = Mathf.Clamp(value, 0, int.MaxValue);
         thresholdText.text = result.ToString();
+    }
+
+    private void CheckGameOverState()
+    {
+        if (SporeCount == 0 && CellCount > 0)
+        {
+            ShowFailScreen();
+            return;
+        }
+
+        if (CellCount == 0)
+        {
+            ShowSuccessScreen();
+            return;
+        }
+    }
+
+    private void ShowSuccessScreen()
+    {
+        SceneManager.LoadScene("SuccessScreen");
+    }
+
+    private void ShowFailScreen()
+    {
+        SceneManager.LoadScene("FailScreen");
     }
 }
