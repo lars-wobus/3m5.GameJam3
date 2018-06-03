@@ -42,7 +42,6 @@ public class PulsingTextureAnimation : MonoBehaviour {
 
     void Update () {
         var value = Mathf.PingPong(Time.time, Length);
-        Debug.Log(value);
         Material.Lerp(StartMaterial, StopMaterial, value / Length);
     }
 }
