@@ -25,7 +25,7 @@ public class Graph : MonoBehaviour {
 
 
     private const int difficulty_max_thr_diff = 2;
-    private const int difficulty_num_supercells = 3;
+    private const int difficulty_num_supercells = 4;
     private const int difficulty_supercell_spore_reward = 0;
 
     private Vector3[] vectors = {
@@ -143,6 +143,13 @@ public class Graph : MonoBehaviour {
                     {
                         organs.Add(Instantiate(prefabs[4], vectors[i] - new Vector3(0, 0.33f, 0), Quaternion.identity, newnode));
                     }
+                    else
+                    {
+                        if(organs.Count < 4) // Spooky floating eyeballs
+                        {
+                            organs.Add(Instantiate(prefabs[5], vectors[i], Quaternion.identity, newnode));
+                        }
+                    }
                 }
             }
             node_transforms.Add(newnode);
@@ -184,7 +191,8 @@ public class Graph : MonoBehaviour {
             node_transforms[i].transform.localScale = new Vector3(0.2f + 0.15f * n.Treshhold, 0.2f + 0.15f * n.Treshhold, 0.2f + 0.15f * n.Treshhold);
             if(nodes[i].isSupercell)
             {
-                organs[organs_created].localScale = new Vector3(0.2f + 0.15f * n.Treshhold, 0.15f + 0.15f * n.Treshhold, 0.15f + 0.15f * n.Treshhold);
+                organs[organs_created].localScale.Scale(new Vector3(0.2f + 0.15f * n.Treshhold, 0.15f + 0.15f * n.Treshhold, 0.15f + 0.15f * n.Treshhold));
+                //organs[organs_created].localScale = new Vector3(0.2f + 0.15f * n.Treshhold, 0.15f + 0.15f * n.Treshhold, 0.15f + 0.15f * n.Treshhold);
                 organs_created++;
             }
         }
