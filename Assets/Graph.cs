@@ -2,8 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+[System.Serializable]
+public class IntEvent : UnityEvent<int> { };
 
 public class Graph : MonoBehaviour {
+
+    public IntEvent CellCountChanged;
+    public int cell_count;
+        
 
     public Transform[] prefabs;
     public List<Transform> node_transforms;
@@ -12,48 +19,97 @@ public class Graph : MonoBehaviour {
     public List<Edge> edges;
     public Transform prefab_edge;
 
-    int num_edges = 7;
+    private int edge_count = 0;
 
-    Vector3[] vectors = { new Vector3(0, 1, 0),
-        new Vector3(0, 3, 0), new Vector3(2, 2, 0),
+
+    private const int difficulty_max_thr_diff = 2;
+
+    private Vector3[] vectors = {
+        // Cluster oben links
+        new Vector3(0, 1, 0),
+        new Vector3(0, 3, 0),
+        new Vector3(2, 2, 0),
         new Vector3(4, 1, 0),
         new Vector3(4, 3, 0),
-        new Vector3(6, 2, 0)};
+        new Vector3(6, 2, 0),
+        new Vector3(2, 0, 0),
+        new Vector3(2, 4, 0),
+        new Vector3(6, 0, 0),
+        new Vector3(2, 5, 0),
+        //rest of center
+        new Vector3(-2, 0, 0),
+        new Vector3(0, -1, 0)
+        // unten rechts
+    };
+
+    private int[,] predefined_edges =
+    {
+        //oben links, zenter
+        {0, 1 }, {0, 2 },
+        {1, 2 }, {2, 3},
+        {2, 4 }, {3, 5},
+        {4, 5 }, {0, 6},
+        {1, 7 }, {7, 4},
+        {8, 5 }, {8, 3},
+        {8, 6 }, {9, 4},
+        {9, 7 },
+        // zenter
+        {0, 10 }, {10, 11}, {6, 11}
+        //unten rechts
+
+    };
 
     // Use this for initialization
-    void Start () {
-        for (int i = 0; i < 6; i++)
+    void Start()
+    {
+        // Initialize vars in other classes, managers
+        GetComponentInChildren<SporeCountManager>().GlobalSporeCount = 3;
+
+        // Initialize Nodes
+        for (int i = 0; i < vectors.Length; i++)
         {
             Transform newnode = Instantiate(prefabs[0], vectors[i], Quaternion.identity);
             node_transforms.Add(newnode);
             newnode.parent = transform;
         }
-
+        System.Random rng = new System.Random();
         nodes = new List<Node>();
+        Node n;
         for (int i = 0; i < node_transforms.Count; i++)
         {
-            Node n = node_transforms[i].GetComponent<Node>();
+            n = node_transforms[i].GetComponent<Node>();
             var cmc = n.GetComponent<ChangeMaterialColor>();
             n.SporeCountChanged.AddListener(cmc.InterpolateMaterialProperties);
             n.ID = i;
-            n.Treshhold = 2;
             nodes.Add(n);
         }
+        cell_count = nodes.Count;
+        
+
         edge_transforms = new List<Transform>();
         edges = new List<Edge>();
-        for (int i = 0; i < num_edges; i++)
+        for (int i = 0; i < predefined_edges.Length / 2; i++)
             edge_transforms.Add(Instantiate(prefabs[1]));
-        for (int i = 0; i < num_edges; i++)
+        for (int i = 0; i < predefined_edges.Length / 2; i++)
             edges.Add(edge_transforms[i].GetComponent<Edge>());
-        initEdge(0, 0, 1);
-        initEdge(1, 0, 2);
-        initEdge(2, 1, 2);
-        initEdge(3, 2, 3);
-        initEdge(4, 2, 4);
-        initEdge(5, 3, 5);
-        initEdge(6, 4, 5);
 
+
+        for(int i = 0; i < predefined_edges.Length / 2; i++)
+        {
+            initEdge(predefined_edges[i, 0], predefined_edges[i, 1]);
+        }
+
+        // Init Threshholds
+        int min = 2;
+        for (int i = 0; i < node_transforms.Count; i++)
+        {
+            n = node_transforms[i].GetComponent<Node>();
+            n.Treshhold = rng.Next(Mathf.Max(2, n.neighbours.Count - difficulty_max_thr_diff), n.neighbours.Count);
+            node_transforms[i].transform.localScale = new Vector3(0.33f * n.Treshhold, 0.33f * n.Treshhold, 0.33f * n.Treshhold);
+        }
     }
+
+
 
     internal void CleanUp(Node node)
     {
@@ -69,11 +125,12 @@ public class Graph : MonoBehaviour {
         }
     }
 
-    private void initEdge(int index, int start, int end)
+    private void initEdge(int start, int end)
     {
-        edges[index].SetNodes(nodes[start], nodes[end]);
+        edges[edge_count].SetNodes(nodes[start], nodes[end]);
         nodes[start].AddNeighbour(nodes[end]);
         nodes[end].AddNeighbour(nodes[start]);
+        edge_count++;
     }
 	
 	// Update is called once per frame
