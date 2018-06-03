@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 23814487267208060}
   - component: {fileID: 135772572262745786}
   - component: {fileID: 114619172020035066}
+  - component: {fileID: 114335976726444892}
   m_Layer: 0
   m_Name: Cell
   m_TagString: Untagged
@@ -85,6 +86,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1364861253372010}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &114335976726444892
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1364861253372010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f6252cc5f5177d4c8bace741c338d05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114619172020035066
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -96,6 +108,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06cd9162ee7e21444afd22daef35aae8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  neighbours: []
+  SporeCountChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: FloatEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  sporeCount: 0
 --- !u!135 &135772572262745786
 SphereCollider:
   m_ObjectHideFlags: 1
