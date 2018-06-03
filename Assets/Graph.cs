@@ -57,7 +57,13 @@ public class Graph : MonoBehaviour {
         new Vector3(2, -3, 0),
         new Vector3(4, -2, 0),
         new Vector3(6, -1, 0),
-        new Vector3(1.5f, -4, 0)
+        new Vector3(1.5f, -4, 0),
+        // oben rechts
+        new Vector3(-4, 1.5f, 0),
+        new Vector3(-6, 2, 0),
+        new Vector3(-4, 3, 0),
+        new Vector3(-2, 4, 0),
+        new Vector3(-2, 2.5f, 0)
 
     };
 
@@ -90,7 +96,14 @@ public class Graph : MonoBehaviour {
         {15, 21 }, {16, 21},
         {21, 22 }, {21, 24},
         {22, 23 }, {23, 24},
-        {23, 8 }, {24, 17 }
+        {23, 8 }, {24, 17 },
+        // oben rechts
+        {10, 25 }, {19, 25},
+        {25, 27 }, {19, 26},
+        {26, 27 }, {27, 28},
+        {27, 29 },
+        {28, 1 }, {29, 1},
+        {29, 10 }
 
     };
 
@@ -108,8 +121,10 @@ public class Graph : MonoBehaviour {
         supercells = new List<int>();
         organs = new List<Transform>();
         int rng_result;
+        bool retry;
         for(int i = 0; i < difficulty_num_supercells; ) // Determine Supercells
         {
+            retry = false;
             rng_result = rng.Next(0, vectors.Length);
             if (supercells.Contains(rng_result))
             {
@@ -117,6 +132,18 @@ public class Graph : MonoBehaviour {
             }
             else
             {
+                foreach (int comp in supercells)
+                {
+                    for(int index = 0; index < predefined_edges.Length / 2; index++)
+                    {
+                        if (predefined_edges[index, 0] == comp && predefined_edges[index, 1] == rng_result || predefined_edges[index, 0] == rng_result && predefined_edges[index, 1] == comp)
+                            retry = true;
+                    }
+                }
+                if(retry)
+                {
+                    continue;
+                }
                 supercells.Add(rng_result);
                 i++;
             }
@@ -193,6 +220,10 @@ public class Graph : MonoBehaviour {
             {
                 organs[organs_created].localScale.Scale(new Vector3(0.2f + 0.15f * n.Treshhold, 0.15f + 0.15f * n.Treshhold, 0.15f + 0.15f * n.Treshhold));
                 //organs[organs_created].localScale = new Vector3(0.2f + 0.15f * n.Treshhold, 0.15f + 0.15f * n.Treshhold, 0.15f + 0.15f * n.Treshhold);
+                if(organs_created < 3 && organs_created > 0) //its a feet
+                {
+                    organs[organs_created].Rotate(new Vector3(0, 90, 0));
+                }
                 organs_created++;
             }
         }
