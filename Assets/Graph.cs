@@ -38,8 +38,23 @@ public class Graph : MonoBehaviour {
         new Vector3(2, 5, 0),
         //rest of center
         new Vector3(-2, 0, 0),
-        new Vector3(0, -1, 0)
-        // unten rechts
+        new Vector3(0, -1, 0),
+        // unten rechts - 12 and on
+        new Vector3(-4, 0, 0),
+        new Vector3(-4, -1, 0),
+        new Vector3(-2, -2, 0),
+        new Vector3(0, -2, 0),
+        new Vector3(-2, -3, 0),
+        new Vector3(-4, -3, 0),
+        new Vector3(-6, -2, 0),
+        new Vector3(-6, -1, 0),
+        // unten links
+        new Vector3(2, -1, 0),
+        new Vector3(2, -3, 0),
+        new Vector3(4, -2, 0),
+        new Vector3(6, -1, 0),
+        new Vector3(1.5f, -4, 0)
+
     };
 
     private int[,] predefined_edges =
@@ -54,8 +69,22 @@ public class Graph : MonoBehaviour {
         {8, 6 }, {9, 4},
         {9, 7 },
         // zenter
-        {0, 10 }, {10, 11}, {6, 11}
+        {0, 10 }, {10, 11}, {6, 11},
         //unten rechts
+        {10, 12 }, {12, 13},
+        {13, 14 }, {11, 14},
+        {12, 14 }, {6, 15},
+        {14, 15 }, {15, 16 },
+        {14, 16 }, {16, 17},
+        {17, 18 }, {13, 18},
+        {12, 19 }, {13, 19},
+        // unten rechts
+        {6, 20 }, {8, 20},
+        {15, 20 }, {20, 22},
+        {15, 21 }, {16, 21},
+        {21, 22 }, {21, 24},
+        {22, 23 }, {23, 24},
+        {23, 8 }, {24, 17 }
 
     };
 
@@ -105,7 +134,7 @@ public class Graph : MonoBehaviour {
         {
             n = node_transforms[i].GetComponent<Node>();
             n.Treshhold = rng.Next(Mathf.Max(2, n.neighbours.Count - difficulty_max_thr_diff), n.neighbours.Count);
-            node_transforms[i].transform.localScale = new Vector3(0.33f * n.Treshhold, 0.33f * n.Treshhold, 0.33f * n.Treshhold);
+            node_transforms[i].transform.localScale = new Vector3(0.1f + 0.2f * n.Treshhold, 0.1f + 0.2f * n.Treshhold, 0.1f + 0.2f * n.Treshhold);
         }
     }
 
