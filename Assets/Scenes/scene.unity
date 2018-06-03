@@ -649,7 +649,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.09433961, g: 0.03604485, b: 0.039113015, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -1619,7 +1619,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: d58cde0721f73fa41b63273aea1268bc, type: 2}
-  offset: {x: 0, y: 0.5}
+  offset: {x: 0.5, y: 0}
 --- !u!1 &1441012419
 GameObject:
   m_ObjectHideFlags: 0
@@ -2121,6 +2121,7 @@ MonoBehaviour:
   materials:
   - {fileID: 2100000, guid: 7cc8252e07ea18a43ab5c714b75e4af3, type: 2}
   - {fileID: 2100000, guid: ee528db2fefceca46bf8238e47ad62a0, type: 2}
+  edgeMaterial: {fileID: 2100000, guid: d58cde0721f73fa41b63273aea1268bc, type: 2}
 --- !u!4 &2029861213
 Transform:
   m_ObjectHideFlags: 0

@@ -15,6 +15,9 @@ public class Edge : MonoBehaviour  {
         linedrawer.positionCount = 2;
         linedrawer.SetPosition(0, start.transform.position);
         linedrawer.SetPosition(1, end.transform.position);
+
+        var manager = GameObject.FindGameObjectWithTag("Manager").GetComponent<SporeColorManager>();
+        linedrawer.sharedMaterial = manager.GetEdgeMaterial();
     }
 	
     public void SetNodes(Node start, Node end)
