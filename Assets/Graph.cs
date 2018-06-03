@@ -17,6 +17,7 @@ public class Graph : MonoBehaviour {
     public List<Transform> node_transforms;
     public List<Transform> edge_transforms;
     public List<Node> nodes;
+    public List<Transform> organs;
     public List<Edge> edges;
     public Transform prefab_edge;
 
@@ -24,7 +25,7 @@ public class Graph : MonoBehaviour {
 
 
     private const int difficulty_max_thr_diff = 2;
-    private const int difficulty_num_supercells = 4;
+    private const int difficulty_num_supercells = 3;
     private const int difficulty_supercell_spore_reward = 0;
 
     private Vector3[] vectors = {
@@ -105,6 +106,7 @@ public class Graph : MonoBehaviour {
 
         // Determine targets
         supercells = new List<int>();
+        organs = new List<Transform>();
         int rng_result;
         for(int i = 0; i < difficulty_num_supercells; ) // Determine Supercells
         {
@@ -131,6 +133,17 @@ public class Graph : MonoBehaviour {
             else
             {
                 newnode = Instantiate(prefabs[2], vectors[i], Quaternion.identity);
+                if(organs.Count < 1) //Teeth
+                {
+                    organs.Add(Instantiate(prefabs[3], vectors[i], Quaternion.identity, newnode));
+                }
+                else
+                {
+                    if (organs.Count < 3) // Feet
+                    {
+                        organs.Add(Instantiate(prefabs[4], vectors[i] - new Vector3(0, 0.33f, 0), Quaternion.identity, newnode));
+                    }
+                }
             }
             node_transforms.Add(newnode);
             newnode.parent = transform;
@@ -163,12 +176,19 @@ public class Graph : MonoBehaviour {
         }
 
         // Init Threshholds
+        int organs_created = 0;
         for (int i = 0; i < node_transforms.Count; i++)
         {
             n = node_transforms[i].GetComponent<Node>();
             n.Treshhold = rng.Next(Mathf.Max(2, n.neighbours.Count - difficulty_max_thr_diff), n.neighbours.Count);
-            node_transforms[i].transform.localScale = new Vector3(0.2f + 0.2f * n.Treshhold, 0.2f + 0.2f * n.Treshhold, 0.2f + 0.2f * n.Treshhold);
+            node_transforms[i].transform.localScale = new Vector3(0.2f + 0.15f * n.Treshhold, 0.2f + 0.15f * n.Treshhold, 0.2f + 0.15f * n.Treshhold);
+            if(nodes[i].isSupercell)
+            {
+                organs[organs_created].localScale = new Vector3(0.2f + 0.15f * n.Treshhold, 0.15f + 0.15f * n.Treshhold, 0.15f + 0.15f * n.Treshhold);
+                organs_created++;
+            }
         }
+        // Create supercell contents
     }
 
 

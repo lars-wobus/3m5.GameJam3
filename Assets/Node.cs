@@ -103,7 +103,6 @@ public class Node : MonoBehaviour {
         {
             AddSpores(Treshhold - sporeCount);
             SporeCountManager.GlobalSporeCount--;
-            InfectedCellsManger.InfectedCells++;
             return;
         }
         Debug.Log("Invalid move!");
