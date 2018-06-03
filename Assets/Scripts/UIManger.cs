@@ -65,11 +65,11 @@ public class UIManger : MonoBehaviour {
 
     private void ShowSuccessScreen()
     {
-        SceneManager.LoadScene("SuccessScreen");
+        SceneManager.LoadScene("SuccessScreen", LoadSceneMode.Additive);
     }
 
     private void ShowFailScreen()
     {
-        SceneManager.LoadScene("FailScreen");
+        SceneManager.LoadScene("FailScreen", LoadSceneMode.Additive);
     }
 }

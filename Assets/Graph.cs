@@ -98,7 +98,7 @@ public class Graph : MonoBehaviour {
     {
         System.Random rng = new System.Random();
         // Initialize vars in other classes, managers
-        GetComponentInChildren<SporeCountManager>().GlobalSporeCount = 3;
+        GetComponentInChildren<SporeCountManager>().GlobalSporeCount = 4;
         GetComponentInChildren<InfectedCellsManager>().InfectedCells = 0;
 
 
