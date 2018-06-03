@@ -22,8 +22,6 @@ public class Graph : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        Transform new_node;
-
         for (int i = 0; i < 6; i++)
         {
             Transform newnode = Instantiate(prefabs[0], vectors[i], Quaternion.identity);
@@ -60,7 +58,7 @@ public class Graph : MonoBehaviour {
     internal void CleanUp(Node node)
     {
         int num_edges = edges.Count;
-        for(int i = 0; i < num_edges; i++)
+        for(int i = num_edges - 1; i >= 0; i--)
         {
             if(edges[i].ConnectsTo(node))
             {
