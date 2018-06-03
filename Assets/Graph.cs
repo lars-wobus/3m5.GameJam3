@@ -9,6 +9,7 @@ public class IntEvent : UnityEvent<int> { };
 public class Graph : MonoBehaviour {
 
     public IntEvent CellCountChanged;
+    
     public int cell_count;
         
 
@@ -24,6 +25,7 @@ public class Graph : MonoBehaviour {
 
     private const int difficulty_max_thr_diff = 2;
     private const int difficulty_num_supercells = 2;
+    private const int difficulty_supercell_spore_reward = 0;
 
     private Vector3[] vectors = {
         // Cluster oben links
@@ -97,6 +99,9 @@ public class Graph : MonoBehaviour {
         System.Random rng = new System.Random();
         // Initialize vars in other classes, managers
         GetComponentInChildren<SporeCountManager>().GlobalSporeCount = 3;
+        GetComponentInChildren<InfectedCellsManager>().InfectedCells = 0;
+
+
 
         // Determine targets
         supercells = new List<int>();
@@ -137,9 +142,11 @@ public class Graph : MonoBehaviour {
             n = node_transforms[i].GetComponent<Node>();
             var cmc = n.GetComponent<ChangeMaterialColor>();
             n.SporeCountChanged.AddListener(cmc.InterpolateMaterialProperties);
+            n.isSupercell = supercells.Contains(i);
             nodes.Add(n);
         }
         cell_count = nodes.Count;
+        CellCountChanged.Invoke(cell_count);
         
 
         edge_transforms = new List<Transform>();
@@ -156,7 +163,6 @@ public class Graph : MonoBehaviour {
         }
 
         // Init Threshholds
-        int min = 2;
         for (int i = 0; i < node_transforms.Count; i++)
         {
             n = node_transforms[i].GetComponent<Node>();
