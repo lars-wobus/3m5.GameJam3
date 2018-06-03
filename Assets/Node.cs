@@ -13,6 +13,8 @@ public class Node : MonoBehaviour {
     public int Treshhold { get; set; }
     public int ID { get; set; }
 
+    private Graph map;
+
     public FloatEvent SporeCountChanged;    
 
     private static int MinSporeCount = 0;
@@ -44,8 +46,8 @@ public class Node : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		
-	}
+        map = transform.parent.GetComponent<Graph>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -60,7 +62,7 @@ public class Node : MonoBehaviour {
 
     public void AddSpores(int spores)
     {
-        if (SporeCount >= Treshhold)
+        if (SporeCount >= Treshhold) //already activated
         {
             return;
         }
@@ -70,7 +72,13 @@ public class Node : MonoBehaviour {
             return;
         }
         // -> Node activated
-        transform.parent.GetComponent<Graph>().CleanUp(this);
+        map.CleanUp(this);
+        map.cell_count--;
+        if (map.CellCountChanged == null)
+        {
+            return;
+        }
+        map.CellCountChanged.Invoke(map.cell_count);
         transform.gameObject.SetActive(false);
         foreach (Node next in neighbours)
         {
@@ -81,6 +89,7 @@ public class Node : MonoBehaviour {
     public void Activate()
     {
         AddSpores(Treshhold - sporeCount);
+        map.GetComponent<SporeCountManager>().GlobalSporeCount--;
     }
 
 }
