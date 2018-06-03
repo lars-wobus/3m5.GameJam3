@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlopSoundManager : MonoBehaviour {
+public class SoundManager : MonoBehaviour {
 
-    AudioSource blopsound;
+    AudioSource blop_sound;
+    AudioSource success_sound;
+    AudioSource failure_sound;
 
 	// Use this for initialization
 	void Start () {
-        blopsound = GetComponent<AudioSource>();
-	}
+        blop_sound = GetComponents<AudioSource>()[0];
+        failure_sound = GetComponents<AudioSource>()[1];
+        success_sound = GetComponents<AudioSource>()[2];
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -17,6 +21,14 @@ public class BlopSoundManager : MonoBehaviour {
 	}
     public void playBlobSound()
     {
-        blopsound.Play();
+        blop_sound.Play();
+    }
+    public void playSuccessSound()
+    {
+        success_sound.Play();
+    }
+    public void playFailureSound()
+    {
+        failure_sound.Play();
     }
 }
