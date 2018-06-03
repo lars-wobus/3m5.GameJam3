@@ -11,7 +11,7 @@ public class Node : MonoBehaviour {
 
     public List<Node> neighbours = new List<Node>();
     public int Treshhold { get; set; }
-    public int ID { get; set; }
+    public bool target;
 
     private Graph map;
 

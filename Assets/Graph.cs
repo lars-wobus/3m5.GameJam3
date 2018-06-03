@@ -23,6 +23,7 @@ public class Graph : MonoBehaviour {
 
 
     private const int difficulty_max_thr_diff = 2;
+    private const int difficulty_num_supercells = 0;
 
     private Vector3[] vectors = {
         // Cluster oben links
@@ -56,6 +57,8 @@ public class Graph : MonoBehaviour {
         new Vector3(1.5f, -4, 0)
 
     };
+
+    private List<int> supercells;
 
     private int[,] predefined_edges =
     {
@@ -91,17 +94,42 @@ public class Graph : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        System.Random rng = new System.Random();
         // Initialize vars in other classes, managers
         GetComponentInChildren<SporeCountManager>().GlobalSporeCount = 3;
+
+        // Determine targets
+        supercells = new List<int>();
+        int rng_result;
+        for(int i = 0; i < difficulty_num_supercells; ) // Determine Supercells
+        {
+            rng_result = rng.Next(0, vectors.Length);
+            if (supercells.Contains(rng_result))
+            {
+                continue;
+            }
+            else
+            {
+                supercells.Add(rng_result);
+                i++;
+            }
+        }
 
         // Initialize Nodes
         for (int i = 0; i < vectors.Length; i++)
         {
-            Transform newnode = Instantiate(prefabs[0], vectors[i], Quaternion.identity);
+            Transform newnode;
+            if (!supercells.Contains(i))
+            {
+                newnode = Instantiate(prefabs[0], vectors[i], Quaternion.identity);
+            }
+            else
+            {
+                newnode = Instantiate(prefabs[2], vectors[i], Quaternion.identity);
+            }
             node_transforms.Add(newnode);
             newnode.parent = transform;
         }
-        System.Random rng = new System.Random();
         nodes = new List<Node>();
         Node n;
         for (int i = 0; i < node_transforms.Count; i++)
@@ -109,7 +137,6 @@ public class Graph : MonoBehaviour {
             n = node_transforms[i].GetComponent<Node>();
             var cmc = n.GetComponent<ChangeMaterialColor>();
             n.SporeCountChanged.AddListener(cmc.InterpolateMaterialProperties);
-            n.ID = i;
             nodes.Add(n);
         }
         cell_count = nodes.Count;
