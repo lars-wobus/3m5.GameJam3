@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 23033874215270206}
   - component: {fileID: 65242565715870912}
   - component: {fileID: 114197376626688540}
+  - component: {fileID: 114019247410795070}
   m_Layer: 0
   m_Name: Supercell
   m_TagString: Untagged
@@ -84,7 +85,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1676969458205686}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!65 &65242565715870912
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -97,6 +98,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114019247410795070
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1676969458205686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f6252cc5f5177d4c8bace741c338d05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114197376626688540
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -108,3 +120,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06cd9162ee7e21444afd22daef35aae8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  neighbours: []
+  target: 0
+  SporeCountChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: FloatEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  sporeCount: 0

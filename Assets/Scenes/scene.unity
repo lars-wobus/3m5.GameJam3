@@ -1402,6 +1402,7 @@ MonoBehaviour:
   prefabs:
   - {fileID: 4999896750706640, guid: c68a4c6b9cd228a428b1dc87b7468e56, type: 2}
   - {fileID: 4761845087400538, guid: ed77d243aac4de04c8ac112545590d0c, type: 2}
+  - {fileID: 4930710573354668, guid: 87a6fb3825f254c4f9c0e755f382f06c, type: 2}
   node_transforms: []
   edge_transforms: []
   nodes: []
