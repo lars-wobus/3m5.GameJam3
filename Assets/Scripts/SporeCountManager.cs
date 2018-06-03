@@ -7,7 +7,7 @@ public class SporeCountManager : MonoBehaviour {
 
     public IntEvent GlobalSporeCountChanged;
 
-    public int globalsporecount;
+    private int globalsporecount;
     public int GlobalSporeCount
     {
         get

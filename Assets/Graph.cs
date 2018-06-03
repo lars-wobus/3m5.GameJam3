@@ -24,7 +24,7 @@ public class Graph : MonoBehaviour {
 
 
     private const int difficulty_max_thr_diff = 2;
-    private const int difficulty_num_supercells = 2;
+    private const int difficulty_num_supercells = 4;
     private const int difficulty_supercell_spore_reward = 0;
 
     private Vector3[] vectors = {

@@ -99,7 +99,7 @@ public class Node : MonoBehaviour {
 
     public void Activate()
     {
-        if (!isSupercell || sporeCount == 0)
+        if (!isSupercell && SporeCountManager.GlobalSporeCount != 0)
         {
             AddSpores(Treshhold - sporeCount);
             SporeCountManager.GlobalSporeCount--;
