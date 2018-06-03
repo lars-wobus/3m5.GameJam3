@@ -7,7 +7,7 @@ public class FloatEvent : UnityEvent<float> { };
 
 public class Node : MonoBehaviour {
 
-    
+
 
     public List<Node> neighbours = new List<Node>();
     public int Treshhold { get; set; }
@@ -15,12 +15,14 @@ public class Node : MonoBehaviour {
 
     private Graph map;
 
-    public FloatEvent SporeCountChanged;    
+    public FloatEvent SporeCountChanged;
 
     private static int MinSporeCount = 0;
     private static int MaxSporeCount = 10;
 
     [SerializeField] private int sporeCount = 0;
+
+    private SporeCountManager SporeCountManager { get; set;}
 
     public int SporeCount
     {
@@ -46,7 +48,9 @@ public class Node : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        map = transform.parent.GetComponent<Graph>();
+        var parent = transform.parent;
+        map = parent.GetComponent<Graph>();
+        SporeCountManager = parent.GetComponentInChildren<SporeCountManager>();
     }
 	
 	// Update is called once per frame
@@ -89,7 +93,7 @@ public class Node : MonoBehaviour {
     public void Activate()
     {
         AddSpores(Treshhold - sporeCount);
-        map.GetComponent<SporeCountManager>().GlobalSporeCount--;
+        SporeCountManager.GlobalSporeCount--;
     }
 
 }
