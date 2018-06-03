@@ -6,6 +6,7 @@ public class UIManger : MonoBehaviour {
 
     private int SporeCount { get; set; }
     private int CellCount { get; set; }
+    private SoundManager sounds;
 
     [SerializeField] private Text infectionRateText;
     [SerializeField] private Text sporesLeftText;
@@ -16,6 +17,7 @@ public class UIManger : MonoBehaviour {
     {
         SporeCount = -1;
         CellCount = -1;
+        sounds = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<SoundManager>();
     }
 
     public void SetInfectionRate(int value)
@@ -65,11 +67,13 @@ public class UIManger : MonoBehaviour {
 
     private void ShowSuccessScreen()
     {
+        sounds.playSuccessSound();
         SceneManager.LoadScene("SuccessScreen", LoadSceneMode.Additive);
     }
 
     private void ShowFailScreen()
     {
+        sounds.playFailureSound();
         SceneManager.LoadScene("FailScreen", LoadSceneMode.Additive);
     }
 }

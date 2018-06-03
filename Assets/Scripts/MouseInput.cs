@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MouseInput : MonoBehaviour {
 
+    SporeCountManager sporecounter;
+
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -14,6 +16,10 @@ public class MouseInput : MonoBehaviour {
                 return;
             }
             clickableObject.Activate();
+        }
+        if(Input.GetKeyDown(KeyCode.C))
+        {
+            sporecounter.GlobalSporeCount++;
         }
     }
 
@@ -26,5 +32,10 @@ public class MouseInput : MonoBehaviour {
             return null;
         }
         return hitInfo.transform.GetComponent<Node>();
+    }
+
+    private void Start()
+    {
+        sporecounter = GameObject.FindGameObjectWithTag("SporeCount").GetComponent<SporeCountManager>();
     }
 }
