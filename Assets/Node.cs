@@ -7,7 +7,7 @@ public class FloatEvent : UnityEvent<float> { };
 
 public class Node : MonoBehaviour {
 
-
+    public BlopSoundManager blopsounds;
 
     public List<Node> neighbours = new List<Node>();
     public int Treshhold { get; set; }
@@ -51,13 +51,13 @@ public class Node : MonoBehaviour {
     void Start () {
         var parent = transform.parent;
         map = parent.GetComponent<Graph>();
+        blopsounds = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<BlopSoundManager>(); ;
         SporeCountManager = parent.GetComponentInChildren<SporeCountManager>();
         InfectedCellsManger = parent.GetComponentInChildren<InfectedCellsManager>();
     }
 	
 	// Update is called once per frame
 	void Update () {
-		
 	}
 
     public void AddNeighbour(Node newnode)
@@ -101,9 +101,9 @@ public class Node : MonoBehaviour {
     {
         if (!isSupercell && SporeCountManager.GlobalSporeCount != 0)
         {
+            blopsounds.playBlobSound();
             AddSpores(Treshhold - sporeCount);
             SporeCountManager.GlobalSporeCount--;
-            InfectedCellsManger.InfectedCells++;
             return;
         }
         Debug.Log("Invalid move!");
